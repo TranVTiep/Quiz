@@ -17,11 +17,26 @@ export const createBank = async (req, res) => {
 };
 
 // 2. Lấy danh sách ngân hàng của user
+
 export const getMyBanks = async (req, res) => {
   try {
-    const banks = await QuestionBank.find({ author: req.user._id })
-      .select("-questions") // Ẩn bớt câu hỏi để load list cho nhẹ
-      .sort({ createdAt: -1 });
+    // Sử dụng aggregate để đếm số lượng câu hỏi cực nhanh
+    const banks = await QuestionBank.aggregate([
+      {
+        $match: { author: req.user._id },
+      },
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          createdAt: 1,
+          // Đếm số lượng phần tử trong mảng questions và lưu vào biến questionCount
+          questionCount: { $size: "$questions" },
+        },
+      },
+      { $sort: { createdAt: -1 } },
+    ]);
+
     res.json(banks);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -6,65 +6,85 @@ import MainLayout from "./layouts/MainLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Pages
+// Pages - Auth & Public
 import Home from "./pages/Home";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
-// Quiz Pages
+
+// Pages - Quiz (Thi cử)
 import QuizDetail from "./pages/Quiz/QuizDetail";
 import TakeQuiz from "./pages/Quiz/TakeQuiz";
 import QuizResult from "./pages/Quiz/QuizResult";
+
+// Pages - User Dashboard (Quản lý cá nhân)
 import MyQuizzes from "./pages/User/MyQuizzes";
 import CreateQuiz from "./pages/User/CreateQuiz";
-import EditQuiz from "./pages/User/EditQuiz";
-import ManageUsers from "./pages/Admin/ManageUsers";
-import ModerateQuizzes from "./pages/Admin/ModerateQuizzes";
 import CreateQuizManual from "./pages/User/CreateQuizManual";
+import EditQuiz from "./pages/User/EditQuiz";
 import History from "./pages/User/History";
+
+// Pages - Question Bank (Ngân hàng câu hỏi)
 import QuestionBankList from "./pages/Bank/QuestionBankList";
 import CreateQuestionBank from "./pages/Bank/CreateQuestionBank";
+import EditQuestionBank from "./pages/Bank/EditQuestionBank";
 import GenerateQuizFromBank from "./pages/Bank/GenerateQuizFromBank";
+
+// Pages - Admin
+import ManageUsers from "./pages/Admin/ManageUsers";
+import ModerateQuizzes from "./pages/Admin/ModerateQuizzes";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Nhóm Route dùng MainLayout (User bình thường) */}
+          {/* =========================================
+              NHÓM 1: GIAO DIỆN CHUNG (MainLayout) 
+              ========================================= */}
           <Route path="/" element={<MainLayout />}>
-            {/* PUBLIC ROUTES (Ai cũng vào được) */}
+            {/* 🟢 PUBLIC ROUTES (Ai cũng vào được) */}
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="reset-password" element={<ResetPassword />} />
-            {/* PROTECTED ROUTES (Phải đăng nhập mới vào được) */}
+
+            {/* 🔴 PROTECTED ROUTES (Bắt buộc phải đăng nhập) */}
             <Route element={<ProtectedRoute />}>
+              {/* --- 1. Luồng Thi Cử (Chi tiết, Làm bài, Kết quả) --- */}
               <Route path="quizzes/:id" element={<QuizDetail />} />
               <Route path="quizzes/:id/take" element={<TakeQuiz />} />
               <Route path="quizzes/:id/result" element={<QuizResult />} />
 
+              {/* --- 2. Quản lý Đề Thi Của Tôi --- */}
               <Route path="my-quizzes" element={<MyQuizzes />} />
               <Route path="my-quizzes/create" element={<CreateQuiz />} />
-              <Route path="my-quizzes/edit/:id" element={<EditQuiz />} />
-
               <Route
                 path="my-quizzes/create-manual"
                 element={<CreateQuizManual />}
               />
+              <Route path="my-quizzes/edit/:id" element={<EditQuiz />} />
+              <Route
+                path="my-quizzes/generate"
+                element={<GenerateQuizFromBank />}
+              />
+
+              {/* --- 3. Quản lý Ngân Hàng Câu Hỏi --- */}
+              <Route path="banks" element={<QuestionBankList />} />
+              <Route path="banks/create" element={<CreateQuestionBank />} />
+              <Route path="banks/edit/:id" element={<EditQuestionBank />} />
+
+              {/* --- 4. Lịch Sử Làm Bài --- */}
               <Route path="history" element={<History />} />
             </Route>
-            <Route path="banks" element={<QuestionBankList />} />
-            <Route path="banks/create" element={<CreateQuestionBank />} />
-            <Route
-              path="my-quizzes/generate"
-              element={<GenerateQuizFromBank />}
-            />
           </Route>
 
-          {/* Nhóm Route dùng AdminLayout (Chỉ Admin) */}
+          {/* =========================================
+              NHÓM 2: GIAO DIỆN QUẢN TRỊ (AdminLayout) 
+              ========================================= */}
+          {/* Lưu ý: Component AdminLayout của bạn đã tự check role admin rồi */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<ManageUsers />} />
             <Route path="users" element={<ManageUsers />} />

@@ -37,54 +37,74 @@ const QuestionBankList = () => {
     }
   };
 
-  if (loading) return <div className="text-center mt-10">Đang tải...</div>;
+  if (loading)
+    return (
+      <div className="text-center mt-10 text-gray-500">Đang tải dữ liệu...</div>
+    );
 
   return (
-    <div className="max-w-6xl mx-auto mt-8">
+    <div className="max-w-6xl mx-auto mt-8 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">
+        <h2 className="text-3xl font-bold text-gray-800 border-l-4 border-blue-600 pl-3">
           Ngân Hàng Câu Hỏi
         </h2>
 
         <Link
           to="/banks/create"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded transition flex items-center gap-2 shadow-sm"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-md"
         >
           <span>➕</span> Tạo Ngân Hàng Mới
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
         {banks.length === 0 ? (
-          <div className="col-span-full text-center py-10 bg-white rounded shadow text-gray-500">
+          <div className="col-span-full text-center py-16 bg-white rounded-lg shadow-sm border border-gray-100 text-gray-500">
+            <span className="text-4xl block mb-3">📭</span>
             Bạn chưa có ngân hàng câu hỏi nào. Hãy tạo một cái mới!
           </div>
         ) : (
           banks.map((bank) => (
+            // Dùng flex flex-col và h-full để các card cao bằng nhau
             <div
               key={bank._id}
-              className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition"
+              className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-shadow flex flex-col h-full relative overflow-hidden"
             >
+              {/* Trang trí góc trái nhỏ cho đẹp */}
+              <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+
               <h3
                 className="text-xl font-bold text-gray-800 mb-2 truncate"
                 title={bank.title}
               >
                 {bank.title}
               </h3>
-              <p className="text-gray-600 text-sm mb-4 line-clamp-2 h-10">
-                {bank.description || "Không có mô tả"}
+
+              {/* flex-grow giúp đẩy phần footer xuống dưới cùng */}
+              <p className="text-gray-500 text-sm mb-6 flex-grow line-clamp-2">
+                {bank.description || "Không có mô tả cho ngân hàng này..."}
               </p>
 
-              <div className="flex justify-between items-center mt-4 pt-4 border-t">
-                <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                  {bank.questions?.length || 0} câu hỏi
+              {/* Footer của Card */}
+              <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
+                <span className="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full">
+                  📚 {bank.questionCount || 0} câu hỏi
                 </span>
-                <button
-                  onClick={() => handleDelete(bank._id)}
-                  className="text-red-500 hover:text-red-700 text-sm font-semibold"
-                >
-                  Xóa
-                </button>
+
+                <div className="flex gap-4">
+                  <Link
+                    to={`/banks/edit/${bank._id}`}
+                    className="text-blue-600 hover:text-blue-800 text-sm font-bold transition-colors"
+                  >
+                    ✏️ Sửa
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(bank._id)}
+                    className="text-red-500 hover:text-red-700 text-sm font-bold transition-colors"
+                  >
+                    ❌ Xóa
+                  </button>
+                </div>
               </div>
             </div>
           ))
