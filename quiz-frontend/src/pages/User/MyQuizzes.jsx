@@ -125,6 +125,12 @@ const MyQuizzes = () => {
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center space-x-4">
                     <Link
+                      to="/live/host"
+                      className="bg-purple-100 text-purple-700 px-3 py-1 rounded font-bold hover:bg-purple-200 transition-colors mr-2 inline-block"
+                    >
+                      🔴 Tổ chức Live
+                    </Link>
+                    <Link
                       to={`/quizzes/${quiz._id}`}
                       className="text-green-600 hover:text-green-900 font-semibold mr-4"
                     >

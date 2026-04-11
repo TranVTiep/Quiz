@@ -59,6 +59,12 @@ const MainLayout = () => {
       </header>
 
       <main className="flex-grow container mx-auto p-4">
+        <Link
+          to="/join"
+          className="bg-yellow-400 text-yellow-900 font-bold px-4 py-2 rounded-lg shadow-sm hover:bg-yellow-500 transition mr-2"
+        >
+          🎮 Nhập Mã PIN
+        </Link>
         <Outlet />
       </main>
 

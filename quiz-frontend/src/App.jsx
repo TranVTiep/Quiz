@@ -17,13 +17,17 @@ import ResetPassword from "./pages/Auth/ResetPassword";
 import QuizDetail from "./pages/Quiz/QuizDetail";
 import TakeQuiz from "./pages/Quiz/TakeQuiz";
 import QuizResult from "./pages/Quiz/QuizResult";
-
+import JoinLiveQuiz from "./pages/Quiz/JoinLiveQuiz";
+import LiveQuizPlayer from "./pages/Quiz/LiveQuizPlayer";
+import LiveQuizHost from "./pages/Quiz/LiveQuizHost";
+import LiveParticipantDetail from "./pages/Quiz/LiveParticipantDetail";
 // Pages - User Dashboard (Quản lý cá nhân)
 import MyQuizzes from "./pages/User/MyQuizzes";
 import CreateQuiz from "./pages/User/CreateQuiz";
 import CreateQuizManual from "./pages/User/CreateQuizManual";
 import EditQuiz from "./pages/User/EditQuiz";
 import History from "./pages/User/History";
+import LiveRoomDetail from "./pages/Quiz/LiveRoomDetail";
 
 // Pages - Question Bank (Ngân hàng câu hỏi)
 import QuestionBankList from "./pages/Bank/QuestionBankList";
@@ -50,6 +54,8 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="join" element={<JoinLiveQuiz />} />
+            <Route path="live/:pin" element={<LiveQuizPlayer />} />
 
             {/* 🔴 PROTECTED ROUTES (Bắt buộc phải đăng nhập) */}
             <Route element={<ProtectedRoute />}>
@@ -70,6 +76,8 @@ function App() {
                 path="my-quizzes/generate"
                 element={<GenerateQuizFromBank />}
               />
+              <Route path="live/host" element={<LiveQuizHost />} />
+              <Route path="live/detail" element={<LiveParticipantDetail />} />
 
               {/* --- 3. Quản lý Ngân Hàng Câu Hỏi --- */}
               <Route path="banks" element={<QuestionBankList />} />
@@ -78,6 +86,7 @@ function App() {
 
               {/* --- 4. Lịch Sử Làm Bài --- */}
               <Route path="history" element={<History />} />
+              <Route path="live/history/:id" element={<LiveRoomDetail />} />
             </Route>
           </Route>
 
